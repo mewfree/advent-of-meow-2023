@@ -22,4 +22,15 @@ possible_games = games.select do |_, game|
   end
 end
 
-puts possible_games.keys.sum
+puts 'Part 1: ', possible_games.keys.sum
+
+def calculate_product(game)
+  game.last.each_with_object({ red: 0, blue: 0, green: 0 }) do |hash, acc|
+    acc[:red] = [acc[:red], hash[:red] || 0].max
+    acc[:blue] = [acc[:blue], hash[:blue] || 0].max
+    acc[:green] = [acc[:green], hash[:green] || 0].max
+    acc
+  end.values.inject(:*)
+end
+
+puts 'Part 2: ', games.map { |game| calculate_product(game) }.sum
